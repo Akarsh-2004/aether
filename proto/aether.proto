@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "github.com/yourname/aethersync/proto";
+
+import "google/protobuf/timestamp.proto";
+
+// Vector2 for position and velocity
+message Vec2 {
+  float x = 1;
+  float y = 2;
+}
+
+// Full state of an entity
+message EntityState {
+  string id = 1;
+  Vec2 position = 2;
+  Vec2 velocity = 3;
+  float rotation = 4;
+  google.protobuf.Timestamp last_update = 5;
+}
+
+// Represents a change in an entity's state
+message MovementDelta {
+  string id = 1;
+  Vec2 position = 2;
+  Vec2 velocity = 3;
+  float rotation = 4;
+  google.protobuf.Timestamp timestamp = 5;
+}
+
+// Input from client to server
+message ClientInput {
+  float velocity_x = 1;
+  float velocity_y = 2;
+}
+
+// Batch of entities for a client
+message WorldSnapshot {
+  repeated EntityState entities = 1;
+  repeated MovementDelta deltas = 2; // Optimization: only send changes
+}
