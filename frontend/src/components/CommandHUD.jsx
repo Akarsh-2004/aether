@@ -1,93 +1,77 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSpatialStore } from '../store/useSpatialStore';
-import { Shield, Activity, Database, Cpu } from 'lucide-react';
+import { Activity, Shield, Zap, Cpu, Globe, ArrowUpRight } from 'lucide-react';
 
 export default function CommandHUD() {
-    const { session, activeCity, entities, systemLoad } = useSpatialStore();
+    const { telemetry, currentCity, tickMetrics, nodeId } = useSpatialStore();
+
+    useEffect(() => {
+        const timer = setInterval(tickMetrics, 1500);
+        return () => clearInterval(timer);
+    }, []);
 
     return (
-        <div className="absolute inset-0 pointer-events-none p-6 flex flex-col justify-between z-10 font-['Plus_Jakarta_Sans']">
-            {/* Top Bar */}
+        <div className="absolute inset-0 pointer-events-none p-10 flex flex-col justify-between z-10 font-sans">
+            {/* TOP NAVIGATION HUD */}
             <div className="flex justify-between items-start">
-                <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-5 rounded-lg pointer-events-auto">
-                    <div className="flex items-center gap-3">
-                        <div className="p-2 bg-cyan-500/20 rounded">
-                            <Shield className="text-cyan-400" size={20} />
+                <div className="bg-white/5 backdrop-blur-2xl border border-white/10 p-6 rounded-2xl pointer-events-auto shadow-2xl transition-all hover:bg-white/10">
+                    <div className="flex items-center gap-5">
+                        <div className="p-3 bg-cyan-500/20 rounded-xl border border-cyan-500/30">
+                            <Shield className="text-cyan-400" size={26} />
                         </div>
                         <div>
-                            <h1 className="text-xl font-extrabold tracking-tight text-white leading-none italic uppercase">
-                                Aether<span className="text-cyan-400">Sync</span>
+                            <h1 className="text-3xl font-black italic tracking-tighter text-white uppercase leading-none">
+                                AETHER<span className="text-cyan-400">SYNC</span>
                             </h1>
-                            <p className="text-[10px] font-mono text-white/30 tracking-[0.2em] mt-1 uppercase">Spatial Indexing Protocol</p>
+                            <p className="text-[10px] font-mono text-white/40 tracking-[0.3em] uppercase mt-2 font-bold">
+                                Spatial Synchronization Cluster • {nodeId}
+                            </p>
                         </div>
                     </div>
                 </div>
 
-                <div className="flex gap-3 pointer-events-auto font-mono">
-                    <StatusCard label="SESSION_ID" value={session.id} />
-                    <StatusCard label="UPLINK" value="STABLE" color="text-emerald-400" />
+                <div className="flex gap-4 pointer-events-auto">
+                    <TelemetryBox label="Latency" value={telemetry.latency} icon={<Zap size={14}/>} color="text-cyan-400" />
+                    <TelemetryBox label="Active Nodes" value={telemetry.activeNodes} icon={<Globe size={14}/>} />
                 </div>
             </div>
 
-            {/* Middle Section: Floating Legend */}
-            <div className="absolute left-6 top-1/2 -translate-y-1/2 bg-black/40 border border-white/5 p-4 rounded-md backdrop-blur-sm pointer-events-auto space-y-4">
-                <p className="text-[9px] font-bold text-white/20 uppercase tracking-widest">Density Spectrum</p>
-                <div className="space-y-2">
-                    <LegendItem color="bg-cyan-400" label="Low" />
-                    <LegendItem color="bg-indigo-400" label="Nominal" />
-                    <LegendItem color="bg-rose-500" label="Congested" />
-                </div>
-            </div>
-
-            {/* Bottom Bar */}
+            {/* BOTTOM ANALYTICS HUD */}
             <div className="flex justify-between items-end">
-                <div className="bg-black/60 border border-white/10 p-4 rounded-xl backdrop-blur-2xl pointer-events-auto min-w-[300px]">
-                    <div className="flex justify-between text-[10px] text-white/40 font-bold mb-3 uppercase tracking-tighter">
-                        <span>Node Analytics: {activeCity}</span>
-                        <span>Load: {systemLoad}%</span>
+                <div className="bg-black/60 border border-white/10 p-6 rounded-3xl backdrop-blur-3xl pointer-events-auto min-w-[350px]">
+                    <div className="flex justify-between items-center mb-6 px-1">
+                        <span className="text-[11px] font-bold text-white/40 uppercase tracking-widest italic">Regional Index: {currentCity}</span>
+                        <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_#10b981]" />
+                            <span className="text-[10px] font-mono text-emerald-500 font-bold uppercase">Uplink Stable</span>
+                        </div>
                     </div>
-                    <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
-                        <div className="h-full bg-cyan-500 transition-all duration-1000" style={{width: `${systemLoad}%`}} />
+                    
+                    <div className="space-y-4">
+                        <div className="flex justify-between text-[11px] font-mono text-white/30 px-1">
+                            <div className="flex items-center gap-2"><Cpu size={12}/> Load: {telemetry.cpuUsage}</div>
+                            <div className="flex items-center gap-2"><ArrowUpRight size={12}/> {telemetry.throughput}</div>
+                        </div>
+                        <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
+                            <div 
+                                className="h-full bg-gradient-to-r from-cyan-500 to-indigo-500 transition-all duration-1000" 
+                                style={{ width: telemetry.cpuUsage }} 
+                            />
+                        </div>
                     </div>
-                    <div className="mt-4 flex justify-between">
-                        <Metric icon={<Activity size={12}/>} value={`${entities.length} pts`} />
-                        <Metric icon={<Database size={12}/>} value="4.2 GB/s" />
-                        <Metric icon={<Cpu size={12}/>} value="0.4ms" />
-                    </div>
-                </div>
-
-                {/* City Selector */}
-                <div className="flex gap-2 pointer-events-auto">
-                    {['Global', 'Mumbai', 'London', 'Tokyo'].map(city => (
-                        <button 
-                            key={city}
-                            className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-md text-[11px] font-bold uppercase tracking-wider transition-all hover:text-cyan-400"
-                        >
-                            {city}
-                        </button>
-                    ))}
                 </div>
             </div>
         </div>
     );
 }
 
-const StatusCard = ({ label, value, color = "text-white" }) => (
-    <div className="bg-white/5 border border-white/10 px-4 py-2 rounded flex flex-col items-end backdrop-blur-lg">
-        <span className="text-[8px] text-white/30 font-bold">{label}</span>
-        <span className={`text-xs font-bold ${color}`}>{value}</span>
-    </div>
-);
-
-const LegendItem = ({ color, label }) => (
-    <div className="flex items-center gap-2">
-        <div className={`w-1.5 h-1.5 rounded-full ${color}`} />
-        <span className="text-[10px] text-white/60 font-medium">{label}</span>
-    </div>
-);
-
-const Metric = ({ icon, value }) => (
-    <div className="flex items-center gap-1.5 text-white/60 font-mono text-[10px]">
-        {icon} <span>{value}</span>
-    </div>
-);
+function TelemetryBox({ label, value, icon, color = "text-white" }) {
+    return (
+        <div className="bg-white/5 backdrop-blur-2xl border border-white/10 px-7 py-5 rounded-2xl flex flex-col items-end shadow-xl">
+            <div className="flex items-center gap-2 text-white/20 mb-1">
+                {icon} <span className="text-[9px] font-bold uppercase tracking-[0.2em]">{label}</span>
+            </div>
+            <div className={`text-2xl font-mono font-bold ${color} tracking-tighter`}>{value}</div>
+        </div>
+    );
+}
