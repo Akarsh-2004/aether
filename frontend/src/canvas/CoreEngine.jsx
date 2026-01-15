@@ -18,26 +18,22 @@ const CoreEngine = () => {
         resize();
 
         const render = () => {
-            // Visual "Fade" effect for motion trails
             ctx.fillStyle = 'rgba(5, 5, 8, 0.2)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             entities.forEach(e => {
-                // Local Physics simulation for demo smoothness
                 e.x += e.vx; e.y += e.vy;
                 if (e.x < 0 || e.x > canvas.width) e.vx *= -1;
                 if (e.y < 0 || e.y > canvas.height) e.vy *= -1;
 
-                // Color Spectrum Logic (Density Aware)
-                let color = '#4cc9f0'; // Default Blue
-                if (e.density > 0.8) color = '#f72585'; // High Red
-                else if (e.density > 0.5) color = '#fee440'; // Med Yellow
+                let color = '#4cc9f0'; 
+                if (e.density > 0.8) color = '#f72585'; 
+                else if (e.density > 0.5) color = '#fee440';
 
                 ctx.beginPath();
                 ctx.arc(e.x, e.y, e.size, 0, Math.PI * 2);
                 ctx.fillStyle = color;
                 
-                // Add Glow to Critical Nodes
                 if (e.density > 0.8) {
                     ctx.shadowBlur = 10;
                     ctx.shadowColor = color;
@@ -62,3 +58,4 @@ const CoreEngine = () => {
 };
 
 export default CoreEngine;
+
