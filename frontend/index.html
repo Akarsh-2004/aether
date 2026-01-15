@@ -3,11 +3,19 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AetherSync | Spatial Intelligence</title>
+    <meta name="theme-color" content="#020203" />
+    <title>AetherSync | Spatial Intelligence & Distributed Sync</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@300;400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg-dark: #020203; --neon-cyan: #22d3ee; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        body { background-color: var(--bg-dark); color: #fff; overflow: hidden; font-family: 'Plus Jakarta Sans', sans-serif; }
+        #root { width: 100vw; height: 100vh; position: relative; }
+        canvas { touch-action: none; user-select: none; }
+    </style>
 </head>
-<body class="bg-[#020203] text-[#e2e2e4] antialiased overflow-hidden">
+<body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
 </body>
