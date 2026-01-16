@@ -1,0 +1,40 @@
+# Aether Realtime Spatial Engine Configuration
+
+engine:
+  tick_rate_ms: 25          # Fixed timestep: 25ms = 40Hz
+  max_entities: 300         # Target concurrent entities
+  world_bounds:
+    min_x: -1000
+    min_y: -1000
+    max_x: 1000
+    max_y: 1000
+  max_speed: 5.0            # Max movement speed per tick
+  aoi_radius: 200.0         # Area of Interest radius
+  quadtree_depth: 8         # Maximum quadtree depth
+  quadtree_capacity: 8      # Entities per quadtree node
+
+gateway:
+  bind_addr: ":8080"
+  read_buffer_size: 1024
+  write_buffer_size: 1024
+  ping_period: 54           # seconds
+  pong_wait: 60             # seconds
+  write_wait: 10            # seconds
+  max_message_size: 512     # bytes
+  enable_compression: true
+
+redis:
+  addr: "localhost:6379"
+  password: ""
+  db: 0
+  pool_size: 10
+
+postgres:
+  host: "localhost"
+  port: 5432
+  user: "aether"
+  password: "password"
+  dbname: "aether"
+  max_open_conns: 25
+  max_idle_conns: 5
+  conn_max_lifetime: 300    # seconds

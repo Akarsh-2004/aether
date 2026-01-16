@@ -1,0 +1,254 @@
+/* HUD Container */
+.hud-container {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  pointer-events: none;
+}
+
+/* Main HUD Bar */
+.hud-main {
+  background: rgba(20, 20, 20, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  pointer-events: auto;
+  min-width: 300px;
+}
+
+/* HUD Sections */
+.hud-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.hud-section h4 {
+  margin: 0 0 8px 0;
+  font-size: 12px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Status Indicator */
+.status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.status-text {
+  font-weight: 600;
+  min-width: 80px;
+}
+
+.latency-text {
+  color: #ccc;
+  font-size: 12px;
+  font-family: 'Courier New', monospace;
+}
+
+/* Metrics */
+.metric-label {
+  color: #888;
+  font-size: 12px;
+}
+
+.metric-value {
+  font-weight: 600;
+  color: #4a90e2;
+  font-family: 'Courier New', monospace;
+  min-width: 30px;
+}
+
+.metric-sub {
+  color: #666;
+  font-size: 11px;
+}
+
+/* Toggle Button */
+.hud-toggle {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  margin-left: auto;
+  transition: all 0.2s ease;
+}
+
+.hud-toggle:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Expanded Panel */
+.hud-expanded {
+  background: rgba(20, 20, 20, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 8px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  pointer-events: auto;
+  min-width: 300px;
+}
+
+.hud-expanded .hud-section {
+  margin-bottom: 16px;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.hud-expanded .hud-section:last-child {
+  margin-bottom: 0;
+}
+
+/* Player Info */
+.player-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: #ccc;
+  font-family: 'Courier New', monospace;
+}
+
+/* Controls */
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.control-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.control-item input[type="checkbox"] {
+  margin: 0;
+}
+
+/* Performance Metrics */
+.performance-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.metric {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #ccc;
+}
+
+.metric span:first-child {
+  color: #888;
+}
+
+.metric span:last-child {
+  font-family: 'Courier New', monospace;
+  color: #4a90e2;
+}
+
+/* Connection Warning */
+.connection-warning {
+  background: rgba(231, 76, 60, 0.9);
+  border: 1px solid rgba(231, 76, 60, 0.5);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-top: 8px;
+  backdrop-filter: blur(10px);
+  pointer-events: auto;
+  animation: warning-pulse 1s infinite;
+}
+
+@keyframes warning-pulse {
+  0%, 100% { opacity: 0.9; }
+  50% { opacity: 0.6; }
+}
+
+.connection-warning span {
+  display: block;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.connection-warning span:last-child {
+  font-size: 11px;
+  font-weight: 400;
+  color: #ffcccc;
+  margin-top: 4px;
+}
+
+/* Instructions */
+.instructions {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(20, 20, 20, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 12px 16px;
+  backdrop-filter: blur(10px);
+  pointer-events: auto;
+}
+
+.instructions div {
+  color: #ccc;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.instructions div:last-child {
+  margin-bottom: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hud-container {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+  }
+  
+  .hud-main {
+    min-width: auto;
+    padding: 8px 12px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  
+  .hud-section {
+    font-size: 12px;
+  }
+  
+  .instructions {
+    display: none;
+  }
+}

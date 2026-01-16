@@ -1,0 +1,103 @@
+syntax = "proto3";
+
+package aether;
+
+option go_package = "github.com/akarsh-2004/aether/proto";
+
+// Message types for client-server communication
+enum MessageType {
+  MESSAGE_TYPE_UNSPECIFIED = 0;
+  
+  // Client -> Server messages
+  MOVEMENT_DELTA = 1;
+  SPAWN_REQUEST = 2;
+  HEARTBEAT = 3;
+  
+  // Server -> Client messages  
+  ENTITY_STATE = 4;
+  SERVER_SNAPSHOT = 5;
+  SPAWN_RESPONSE = 6;
+  CORRECTION = 7;
+  DESPAWN = 8;
+}
+
+// Movement intent from client
+message MovementDelta {
+  uint32 entity_id = 1;
+  uint64 sequence = 2;        // Client-side sequence number
+  float delta_x = 3;          // Movement delta X
+  float delta_y = 4;          // Movement delta Y
+  uint64 timestamp = 5;      // Client timestamp
+}
+
+// Complete entity state
+message EntityState {
+  uint32 entity_id = 1;
+  float x = 2;
+  float y = 3;
+  float velocity_x = 4;
+  float velocity_y = 5;
+  uint64 last_update = 6;
+  string entity_type = 7;
+}
+
+// Server snapshot containing all relevant entities for a client
+message ServerSnapshot {
+  uint64 tick_number = 1;
+  repeated EntityState entities = 2;
+  repeated uint32 despawned_entities = 3;
+}
+
+// Request to spawn a new entity
+message SpawnRequest {
+  string entity_type = 1;
+  string client_id = 2;
+  float spawn_x = 3;
+  float spawn_y = 4;
+}
+
+// Response to spawn request
+message SpawnResponse {
+  bool success = 1;
+  uint32 entity_id = 2;
+  string error_message = 3;
+  float spawn_x = 4;
+  float spawn_y = 5;
+}
+
+// Server correction when client prediction is wrong
+message Correction {
+  uint32 entity_id = 1;
+  float correct_x = 2;
+  float correct_y = 3;
+  float correct_velocity_x = 4;
+  float correct_velocity_y = 5;
+  uint64 ack_sequence = 6;    // Last acknowledged sequence
+}
+
+// Entity despawn notification
+message Despawn {
+  uint32 entity_id = 1;
+  string reason = 2;
+}
+
+// Client heartbeat
+message Heartbeat {
+  string client_id = 1;
+  uint64 timestamp = 2;
+}
+
+// Wrapper message for all communications
+message Message {
+  MessageType type = 1;
+  oneof payload {
+    MovementDelta movement_delta = 2;
+    EntityState entity_state = 3;
+    ServerSnapshot server_snapshot = 4;
+    SpawnRequest spawn_request = 5;
+    SpawnResponse spawn_response = 6;
+    Correction correction = 7;
+    Despawn despawn = 8;
+    Heartbeat heartbeat = 9;
+  }
+}

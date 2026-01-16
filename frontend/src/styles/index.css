@@ -1,10 +1,105 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-html, body {
+/* Reset and base styles */
+* {
   margin: 0;
   padding: 0;
-  background: #0B0F14;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
   overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #fafafa; /* Light gray background for white theme */
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+/* Canvas container */
+canvas {
+  display: block;
+  touch-action: none;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Selection styling */
+::selection {
+  background: rgba(74, 144, 226, 0.3);
+}
+
+::-moz-selection {
+  background: rgba(74, 144, 226, 0.3);
+}
+
+/* Performance optimizations */
+.will-change-transform {
+  will-change: transform;
+}
+
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Loading state */
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background: #fafafa; /* Light background for white theme */
+  color: #333333; /* Dark text for white theme */
+  font-size: 16px;
+}
+
+/* Error state */
+.error {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background: #fff5f5; /* Light red tint for errors */
+  color: #dc2626; /* Dark red text */
+  font-size: 16px;
+  text-align: center;
+  padding: 20px;
+}
+
+.error h1 {
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+.error p {
+  opacity: 0.8;
+  line-height: 1.5;
 }

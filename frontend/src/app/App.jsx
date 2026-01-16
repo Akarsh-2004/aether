@@ -3,7 +3,7 @@ import SpatialWorld from "../pages/SpatialWorld";
 
 export default function App() {
   return (
-    <div className="w-screen h-screen bg-[#0B0F14] text-white">
+    <div style={{ width: '100vw', height: '100vh', background: '#0a0a0a' }}>
       <SpatialWorld />
     </div>
   );
