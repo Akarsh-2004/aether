@@ -12,6 +12,7 @@
 *.out
 
 # Go workspace file
+
 go.work
 
 # Dependency directories (remove the comment below to include it)
